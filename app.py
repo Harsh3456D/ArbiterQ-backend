@@ -35,6 +35,14 @@ def get_db_connection():
     conn = psycopg2.connect(DATABASE_URL)
     return conn
 
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,OPTIONS'
+    return response
+
+
 #Sign Up Route
 @app.route('/api/signup', methods=['POST'])
 def signup():
@@ -1255,4 +1263,5 @@ def delete_own_account():
 
 
 if __name__ == '__main__':
+
     app.run(debug=True, port=5000)
